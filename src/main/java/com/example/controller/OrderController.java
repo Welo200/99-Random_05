@@ -39,7 +39,7 @@ public class OrderController {
             return "Order deleted successfully";
         }
         catch(Exception e){
-            return "failed to delete order";
+            return "Order not found";
         }
     }
 

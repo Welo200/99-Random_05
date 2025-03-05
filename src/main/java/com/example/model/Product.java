@@ -11,8 +11,9 @@ public class Product {
     private double price;
 
     public Product() {
-    }
+        this.id = UUID.randomUUID();
 
+    }
     public Product(UUID id, String name, double price) {
         this.id = id;
         this.name = name;

@@ -16,6 +16,8 @@ public class Order {
     private List<Product> products=new ArrayList<>();
 
     public Order() {
+        this.id = UUID.randomUUID();
+
     }
 
 

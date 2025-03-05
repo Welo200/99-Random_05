@@ -31,6 +31,10 @@ public class OrderService extends MainService<Order> {
     }
 
     public void deleteOrderById(UUID orderId) throws IllegalArgumentException {
+        Order order = this.orderRepository.getOrderById(orderId);
+        if (order == null) {
+            throw new IllegalArgumentException();
+        }
         this.orderRepository.deleteOrderById(orderId);
     }
 
