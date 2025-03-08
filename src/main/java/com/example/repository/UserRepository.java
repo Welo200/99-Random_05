@@ -1,12 +1,14 @@
 package com.example.repository;
 
-import org.springframework.stereotype.Repository;
-import com.example.model.User;
 import com.example.model.Order;
-import java.util.*;
+import com.example.model.User;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Repository
-@SuppressWarnings("rawtypes")
 public class UserRepository extends MainRepository<User> {
 
     public UserRepository() {
@@ -23,60 +25,61 @@ public class UserRepository extends MainRepository<User> {
         return User[].class;
     }
 
-    // Get all users
+    // Retrieve all users from the JSON file
     public ArrayList<User> getUsers() {
         return findAll();
     }
 
-    // Get user by ID
+    // Fetch a specific user by their unique ID
     public User getUserById(UUID userId) {
-        return findAll().stream()
+        ArrayList<User> users = getUsers();
+        return users.stream()
                 .filter(user -> user.getId().equals(userId))
                 .findFirst()
                 .orElse(null);
     }
 
-    // Add a new user
+    // Add a new user to the JSON file
     public User addUser(User user) {
-        ArrayList<User> users = findAll();
+        ArrayList<User> users = getUsers();
         users.add(user);
         saveAll(users);
         return user;
     }
 
-    // Get orders of a user
+    // Retrieve all orders for a given user ID
     public List<Order> getOrdersByUserId(UUID userId) {
         User user = getUserById(userId);
-        return (user != null) ? user.getOrders() : new ArrayList<>();
+        return user != null ? user.getOrders() : new ArrayList<>();
     }
 
     // Add an order to a user
     public void addOrderToUser(UUID userId, Order order) {
-        ArrayList<User> users = findAll();
-        for (User user : users) {
-            if (user.getId().equals(userId)) {
-                user.getOrders().add(order);
-                saveAll(users);
-                return;
-            }
-        }
+        ArrayList<User> users = getUsers();
+        users.stream()
+                .filter(user -> user.getId().equals(userId))
+                .findFirst()
+                .ifPresent(user -> {
+                    user.addOrder(order);
+                    saveAll(users);
+                });
     }
 
     // Remove an order from a user
     public void removeOrderFromUser(UUID userId, UUID orderId) {
-        ArrayList<User> users = findAll();
-        for (User user : users) {
-            if (user.getId().equals(userId)) {
-                user.getOrders().removeIf(order -> order.getId().equals(orderId));
-                saveAll(users);
-                return;
-            }
-        }
+        ArrayList<User> users = getUsers();
+        users.stream()
+                .filter(user -> user.getId().equals(userId))
+                .findFirst()
+                .ifPresent(user -> {
+                    user.getOrders().removeIf(order -> order.getId().equals(orderId));
+                    saveAll(users);
+                });
     }
 
-    // Delete user by ID
+    // Delete a user by their ID
     public void deleteUserById(UUID userId) {
-        ArrayList<User> users = findAll();
+        ArrayList<User> users = getUsers();
         users.removeIf(user -> user.getId().equals(userId));
         saveAll(users);
     }

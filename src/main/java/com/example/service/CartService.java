@@ -1,54 +1,56 @@
 package com.example.service;
 
-import org.springframework.stereotype.Service;
 import com.example.model.Cart;
 import com.example.model.Product;
 import com.example.repository.CartRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
-public class CartService {
+public class CartService extends MainService<Cart> {
 
     private final CartRepository cartRepository;
 
+    @Autowired
     public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
     }
 
-    // Add a new cart
-    public Cart createCart(UUID userId) {
-        Cart newCart = new Cart(UUID.randomUUID(), userId, new ArrayList<>());
-        return cartRepository.addCart(newCart);
+    // Add a new cart to the system
+    public Cart addCart(Cart cart) {
+        return cartRepository.addCart(cart);
     }
 
-    // Get all carts
-    public List<Cart> getAllCarts() {
+    // Retrieve all carts from the system
+    public ArrayList<Cart> getCarts() {
         return cartRepository.getCarts();
     }
 
-    // Get a specific cart by ID
+    // Fetch a specific cart by its unique ID
     public Cart getCartById(UUID cartId) {
         return cartRepository.getCartById(cartId);
     }
 
-    // Get a cart by user ID
+    // Get the cart of a specific user by their ID
     public Cart getCartByUserId(UUID userId) {
         return cartRepository.getCartByUserId(userId);
     }
 
-    // Add a product to a cart
+    // Add a product to a specific cart
     public void addProductToCart(UUID cartId, Product product) {
         cartRepository.addProductToCart(cartId, product);
     }
 
-    // Remove a product from a cart
-    public void removeProductFromCart(UUID cartId, Product product) {
+    // Delete a product from a specific cart
+    public void deleteProductFromCart(UUID cartId, Product product) {
         cartRepository.deleteProductFromCart(cartId, product);
     }
 
-    // Delete a cart by ID
-    public void deleteCart(UUID cartId) {
+    // Delete a cart by its ID
+    public void deleteCartById(UUID cartId) {
         cartRepository.deleteCartById(cartId);
     }
 }

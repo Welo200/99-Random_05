@@ -18,22 +18,22 @@ public class OrderService extends MainService<Order> {
         this.orderRepository = orderRepository;
     }
 
-    // Add a new order
+    // Add a new order to the system
     public void addOrder(Order order) {
         orderRepository.addOrder(order);
     }
 
-    // Get all orders
+    // Retrieve all orders from the system
     public ArrayList<Order> getOrders() {
-        return orderRepository.findAll();
+        return orderRepository.getOrders();
     }
 
-    // Get a specific order by ID
+    // Fetch a specific order by its unique ID
     public Order getOrderById(UUID orderId) {
         return orderRepository.getOrderById(orderId);
     }
 
-    // Delete an order by ID
+    // Delete a specific order by its ID
     public void deleteOrderById(UUID orderId) {
         orderRepository.deleteOrderById(orderId);
     }

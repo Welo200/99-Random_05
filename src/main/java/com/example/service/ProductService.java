@@ -18,24 +18,42 @@ public class ProductService extends MainService<Product> {
         this.productRepository = productRepository;
     }
 
-    // Add a new product
+    // Add a new product to the system
     public Product addProduct(Product product) {
         return productRepository.addProduct(product);
     }
 
-    // Get all products
+    // Retrieve all products from the system
     public ArrayList<Product> getProducts() {
-        return productRepository.findAll();
+        return productRepository.getProducts();
     }
 
-    // Get a specific product by ID
+    // Fetch a specific product by its unique ID
     public Product getProductById(UUID productId) {
         return productRepository.getProductById(productId);
     }
 
-    // Update a product's name and price
     public Product updateProduct(UUID productId, String newName, double newPrice) {
-        return productRepository.updateProduct(productId, newName, newPrice);
+        // Validate inputs
+        if (newName == null || newName.isEmpty()) {
+            throw new IllegalArgumentException("newName cannot be null or empty");
+        }
+        if (newPrice < 0) {
+            throw new IllegalArgumentException("newPrice must be a positive value");
+        }
+
+        // Fetch the product from the repository
+        Product product = productRepository.getProductById(productId);
+        if (product == null) {
+            throw new IllegalArgumentException("Product not found with ID: " + productId);
+        }
+
+        // Update the product
+        product.setName(newName);
+        product.setPrice(newPrice);
+        productRepository.save(product);
+
+        return product;
     }
 
     // Apply a discount to a list of products
@@ -43,7 +61,7 @@ public class ProductService extends MainService<Product> {
         productRepository.applyDiscount(discount, productIds);
     }
 
-    // Delete a product by ID
+    // Delete a product by its ID
     public void deleteProductById(UUID productId) {
         productRepository.deleteProductById(productId);
     }

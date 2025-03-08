@@ -1,21 +1,27 @@
 package com.example.model;
 
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import com.example.model.Order;
-
 
 @Component
 public class User {
     private UUID id;
     private String name;
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
-    // No-argument constructor
+    // Default constructor
     public User() {
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID(); // Automatically generate a unique ID
+        this.orders = new ArrayList<>();
+    }
+
+    // Constructor with name
+    public User(String name) {
+        this.id = UUID.randomUUID(); // Automatically generate a unique ID
+        this.name = name;
         this.orders = new ArrayList<>();
     }
 
@@ -23,14 +29,7 @@ public class User {
     public User(UUID id, String name, List<Order> orders) {
         this.id = id;
         this.name = name;
-        this.orders = orders;
-    }
-
-    // Constructor with only name (generates ID and initializes empty orders list)
-    public User(String name) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.orders = new ArrayList<>();
+        this.orders = orders != null ? orders : new ArrayList<>();
     }
 
     // Getters and Setters
@@ -56,5 +55,28 @@ public class User {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    // Helper method to add an order to the user
+    public void addOrder(Order order) {
+        if (order != null) {
+            this.orders.add(order);
+        }
+    }
+
+    // Helper method to remove an order from the user
+    public void removeOrder(Order order) {
+        if (order != null) {
+            this.orders.remove(order);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", orders=" + orders +
+                '}';
     }
 }

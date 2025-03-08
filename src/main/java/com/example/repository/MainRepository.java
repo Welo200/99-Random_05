@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +31,7 @@ public abstract class MainRepository<T> {
             }
             T[] array = objectMapper.readValue(file, getArrayType()); // Deserialize to array first
             return new ArrayList<>(Arrays.asList(array));
-            // return objectMapper.readValue(file, new TypeReference<ArrayList<T>>(){});
+//             return objectMapper.readValue(file, new TypeReference<ArrayList<T>>(){});
         } catch (IOException e) {
             throw new RuntimeException("Failed to read from JSON file", e);
         }

@@ -38,25 +38,35 @@ public class ProductController {
         return productService.getProductById(productId);
     }
 
-    // Update a product
     @PutMapping("/update/{productId}")
     public Product updateProduct(@PathVariable UUID productId, @RequestBody Map<String, Object> body) {
-        String newName = (String) body.get("name");
-        double newPrice = (double) body.get("price");
+        // Get newName and newPrice from the request body
+        String newName = (String) body.get("newName");
+        Double newPrice = (Double) body.get("newPrice");
+
+        // Handle missing or null fields
+        if (newName == null) {
+            throw new IllegalArgumentException("newName cannot be null");
+        }
+        if (newPrice == null) {
+            throw new IllegalArgumentException("newPrice cannot be null");
+        }
+
+        // Call the service to update the product
         return productService.updateProduct(productId, newName, newPrice);
     }
 
-    // Apply a discount to products
+    // Apply a discount to a list of products
     @PutMapping("/applyDiscount")
     public String applyDiscount(@RequestParam double discount, @RequestBody ArrayList<UUID> productIds) {
         productService.applyDiscount(discount, productIds);
-        return "Discount applied successfully";
+        return "Discount applied successfully to the specified products.";
     }
 
     // Delete a product by ID
     @DeleteMapping("/delete/{productId}")
     public String deleteProductById(@PathVariable UUID productId) {
         productService.deleteProductById(productId);
-        return "Product deleted successfully: " + productId;
+        return "Product deleted successfully with ID: " + productId;
     }
 }

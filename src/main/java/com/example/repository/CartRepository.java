@@ -1,12 +1,13 @@
 package com.example.repository;
 
-import org.springframework.stereotype.Repository;
 import com.example.model.Cart;
 import com.example.model.Product;
-import java.util.*;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 @Repository
-@SuppressWarnings("rawtypes")
 public class CartRepository extends MainRepository<Cart> {
 
     public CartRepository() {
@@ -23,7 +24,7 @@ public class CartRepository extends MainRepository<Cart> {
         return Cart[].class;
     }
 
-    // Add a new cart
+    // Add a new cart to the JSON file
     public Cart addCart(Cart cart) {
         ArrayList<Cart> carts = findAll();
         carts.add(cart);
@@ -31,54 +32,56 @@ public class CartRepository extends MainRepository<Cart> {
         return cart;
     }
 
-    // Get all carts
+    // Retrieve all carts from the JSON file
     public ArrayList<Cart> getCarts() {
         return findAll();
     }
 
-    // Get a cart by its ID
+    // Fetch a specific cart by its unique ID
     public Cart getCartById(UUID cartId) {
-        return findAll().stream()
+        ArrayList<Cart> carts = getCarts();
+        return carts.stream()
                 .filter(cart -> cart.getId().equals(cartId))
                 .findFirst()
                 .orElse(null);
     }
 
-    // Get a user's cart by user ID
+    // Get the cart of a specific user by their ID
     public Cart getCartByUserId(UUID userId) {
-        return findAll().stream()
+        ArrayList<Cart> carts = getCarts();
+        return carts.stream()
                 .filter(cart -> cart.getUserId().equals(userId))
                 .findFirst()
                 .orElse(null);
     }
 
-    // Add a product to a cart
+    // Add a product to a specific cart
     public void addProductToCart(UUID cartId, Product product) {
-        ArrayList<Cart> carts = findAll();
+        ArrayList<Cart> carts = getCarts();
         for (Cart cart : carts) {
             if (cart.getId().equals(cartId)) {
-                cart.getProducts().add(product);
+                cart.addProduct(product);
                 saveAll(carts);
-                return;
+                break;
             }
         }
     }
 
-    // Delete a product from a cart
+    // Delete a product from a specific cart
     public void deleteProductFromCart(UUID cartId, Product product) {
-        ArrayList<Cart> carts = findAll();
+        ArrayList<Cart> carts = getCarts();
         for (Cart cart : carts) {
             if (cart.getId().equals(cartId)) {
-                cart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
+                cart.removeProduct(product);
                 saveAll(carts);
-                return;
+                break;
             }
         }
     }
 
     // Delete a cart by its ID
     public void deleteCartById(UUID cartId) {
-        ArrayList<Cart> carts = findAll();
+        ArrayList<Cart> carts = getCarts();
         carts.removeIf(cart -> cart.getId().equals(cartId));
         saveAll(carts);
     }
