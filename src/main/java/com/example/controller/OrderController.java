@@ -37,10 +37,13 @@ public class OrderController {
         return orderService.getOrderById(orderId);
     }
 
-    // Delete a specific order by ID
     @DeleteMapping("/delete/{orderId}")
     public String deleteOrderById(@PathVariable UUID orderId) {
+        Order order = orderService.getOrderById(orderId);
+        if (order == null) {
+            return "Order not found"; // Return the expected response
+        }
         orderService.deleteOrderById(orderId);
-        return "Order deleted successfully with ID: " + orderId;
+        return "Order deleted successfully";
     }
 }

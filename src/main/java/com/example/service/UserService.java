@@ -1,8 +1,13 @@
 package com.example.service;
 
+import com.example.model.Cart;
+import com.example.model.Product;
 import com.example.model.User;
 import com.example.model.Order;
 import com.example.repository.UserRepository;
+import com.example.repository.CartRepository;
+import com.example.repository.ProductRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +21,9 @@ public class UserService extends MainService<User> {
 
     private final UserRepository userRepository;
 
+
     @Autowired  
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, CartRepository cartRepository, ProductRepository productRepository) {
         this.userRepository = userRepository;
     }
 
