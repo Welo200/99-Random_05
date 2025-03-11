@@ -26,6 +26,7 @@
  import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+<<<<<<< HEAD
  //import com.example.model.Cart;
  import com.example.model.Order;
  import com.example.model.Product;
@@ -38,6 +39,20 @@
  import com.example.service.OrderService;
  import com.example.service.ProductService;
  //import com.example.service.UserService;
+=======
+ import com.example.model.Cart;
+ import com.example.model.Order;
+ import com.example.model.Product;
+ import com.example.model.User;
+ import com.example.repository.CartRepository;
+ import com.example.repository.OrderRepository;
+ import com.example.repository.ProductRepository;
+ import com.example.repository.UserRepository;
+ import com.example.service.CartService;
+ import com.example.service.OrderService;
+ import com.example.service.ProductService;
+ import com.example.service.UserService;
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
  import com.fasterxml.jackson.core.JsonProcessingException;
  import com.fasterxml.jackson.core.type.TypeReference;
  import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,8 +60,13 @@
  @WebMvcTest
  class MiniProject1ApplicationTests {
 
+<<<<<<< HEAD
  //	@Value("${spring.application.userDataPath}")
 //     private String userDataPath;
+=======
+ 	@Value("${spring.application.userDataPath}")
+     private String userDataPath;
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
 
      @Value("${spring.application.productDataPath}")
      private String productDataPath;
@@ -54,8 +74,8 @@
      @Value("${spring.application.orderDataPath}")
      private String orderDataPath;
 
-//     @Value("${spring.application.cartDataPath}")
-//     private String cartDataPath;
+     @Value("${spring.application.cartDataPath}")
+     private String cartDataPath;
 
  	@Autowired
  	private MockMvc mockMvc;
@@ -65,22 +85,27 @@
 
 	
 
-// 	@Autowired
-// 	private UserService userService;
+ 	@Autowired
+ 	private UserService userService;
 
-// 	@Autowired
-// 	private CartService cartService;
+ 	@Autowired
+ 	private CartService cartService;
 
  	@Autowired
  	private ProductService productService;
 
  	@Autowired
  	private OrderService orderService;
+<<<<<<< HEAD
 // 	@Autowired
 // 	private UserRepository userRepository;
+=======
+ 	@Autowired
+ 	private UserRepository userRepository;
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
 
-// 	@Autowired
-// 	private CartRepository cartRepository;
+ 	@Autowired
+ 	private CartRepository cartRepository;
 
  	@Autowired
  	private ProductRepository productRepository;
@@ -90,10 +115,17 @@
 
  	public void overRideAll(){
          try{
+<<<<<<< HEAD
              //objectMapper.writeValue(new File(userDataPath), new ArrayList<User>());
              objectMapper.writeValue(new File(productDataPath), new ArrayList<Product>());
              objectMapper.writeValue(new File(orderDataPath), new ArrayList<Order>());
              //objectMapper.writeValue(new File(cartDataPath), new ArrayList<Cart>());
+=======
+             objectMapper.writeValue(new File(userDataPath), new ArrayList<User>());
+             objectMapper.writeValue(new File(productDataPath), new ArrayList<Product>());
+             objectMapper.writeValue(new File(orderDataPath), new ArrayList<Order>());
+             objectMapper.writeValue(new File(cartDataPath), new ArrayList<Cart>());
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
          } catch (IOException e) {
              throw new RuntimeException("Failed to write to JSON file", e);
          }
@@ -101,6 +133,7 @@
 
      public Object find(String typeString, Object toFind){
          switch(typeString){
+<<<<<<< HEAD
 //             case "User":
 //                 ArrayList<User> users = getUsers();
                 
@@ -110,6 +143,17 @@
 //                     }
 //                 }
 //                 break;
+=======
+             case "User":
+                 ArrayList<User> users = getUsers();
+                
+                 for(User user: users){
+                     if(user.getId().equals(((User)toFind).getId())){
+                         return user;
+                     }
+                 }
+                 break;
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
              case "Product":
                  ArrayList<Product> products = getProducts();
                  for(Product product: products){
@@ -126,6 +170,7 @@
                      }
                  }
                  break;
+<<<<<<< HEAD
 //             case "Cart":
 //                 ArrayList<Cart> carts = getCarts();
 //                 for(Cart cart: carts){
@@ -134,6 +179,16 @@
 //                     }
 //                 }
 //                 break;
+=======
+             case "Cart":
+                 ArrayList<Cart> carts = getCarts();
+                 for(Cart cart: carts){
+                     if(cart.getId().equals(((Cart)toFind).getId())){
+                         return cart;
+                     }
+                 }
+                 break;
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
          }
          return null;
      }
@@ -167,6 +222,7 @@
         }
     }
 
+<<<<<<< HEAD
 //    public User addUser(User user) {
 //        try {
 //            File file = new File(userDataPath);
@@ -223,6 +279,64 @@
 //               throw new RuntimeException("Failed to read from JSON file", e);
 //          }
 //     }
+=======
+    public User addUser(User user) {
+        try {
+            File file = new File(userDataPath);
+            ArrayList<User> users;
+            if (!file.exists()) {
+                users = new ArrayList<>();
+            }
+            else {
+                users = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, User[].class)));
+            }
+            users.add(user);
+            objectMapper.writeValue(file, users);
+            return user;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write to JSON file", e);
+        }
+    }
+     public ArrayList<User> getUsers() {
+          try {
+               File file = new File(userDataPath);
+               if (!file.exists()) {
+                 return new ArrayList<>();
+               }
+               return new ArrayList<User>(Arrays.asList(objectMapper.readValue(file, User[].class)));
+          } catch (IOException e) {
+               throw new RuntimeException("Failed to read from JSON file", e);
+          }
+     }
+     public Cart addCart(Cart cart){
+        try{
+               File file = new File(cartDataPath);
+               ArrayList<Cart> carts;
+               if (!file.exists()) {
+                 carts = new ArrayList<>();
+               }
+               else {
+                 carts = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Cart[].class)));
+               }
+               carts.add(cart);
+               objectMapper.writeValue(file, carts);
+               return cart;
+          } catch (IOException e) {
+               throw new RuntimeException("Failed to write to JSON file", e);
+        }
+     }
+     public ArrayList<Cart> getCarts() {
+          try {
+               File file = new File(cartDataPath);
+               if (!file.exists()) {
+                 return new ArrayList<>();
+               }
+               return new ArrayList<Cart>(Arrays.asList(objectMapper.readValue(file, Cart[].class)));
+          } catch (IOException e) {
+               throw new RuntimeException("Failed to read from JSON file", e);
+          }
+     }
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
      public Order addOrder(Order order){
           try{
                    File file = new File(orderDataPath);
@@ -254,229 +368,229 @@
 
 
 
-// 	private UUID userId;
-// 	private User testUser;
-// 	@BeforeEach
-// 	void setUp() {
-// 		userId = UUID.randomUUID();
-// 		testUser = new User();
-// 		testUser.setId(userId);
-// 		testUser.setName("Test User");
-// 		overRideAll();
-// 	}
+ 	private UUID userId;
+ 	private User testUser;
+ 	@BeforeEach
+ 	void setUp() {
+ 		userId = UUID.randomUUID();
+ 		testUser = new User();
+ 		testUser.setId(userId);
+ 		testUser.setName("Test User");
+ 		overRideAll();
+ 	}
 
-// 	// ------------------------ User Tests -------------------------
+ 	// ------------------------ User Tests -------------------------
 	
 	
 
-// 	@Test
-// 	void testAddUserEndPoint() throws Exception {
-// 		User testUser3 = new User();
-// 		testUser3.setId(UUID.randomUUID());
-// 		testUser3.setName("Test User3");
+ 	@Test
+ 	void testAddUserEndPoint() throws Exception {
+ 		User testUser3 = new User();
+ 		testUser3.setId(UUID.randomUUID());
+ 		testUser3.setName("Test User3");
 		
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/user/")
-// 				.contentType(MediaType.APPLICATION_JSON)
-// 				.content(objectMapper.writeValueAsString(testUser3)))
-// 				.andExpect(MockMvcResultMatchers.status().isOk());
-// 		boolean found=false;
+ 		mockMvc.perform(MockMvcRequestBuilders.post("/user/")
+ 				.contentType(MediaType.APPLICATION_JSON)
+ 				.content(objectMapper.writeValueAsString(testUser3)))
+ 				.andExpect(MockMvcResultMatchers.status().isOk());
+ 		boolean found=false;
 
-// 		for(User user: getUsers()){
-// 			if(user.getId().equals(testUser3.getId()) && user.getName().equals(testUser3.getName())){
-// 				found=true;
-// 				break;
-// 			}
-// 		}
-// 		assertTrue(found,"User should be added correctly");   
-// 	}
+ 		for(User user: getUsers()){
+ 			if(user.getId().equals(testUser3.getId()) && user.getName().equals(testUser3.getName())){
+ 				found=true;
+ 				break;
+ 			}
+ 		}
+ 		assertTrue(found,"User should be added correctly");
+ 	}
 
 
-// 	@Test
-// 	void testGetUsersEndPoint() throws Exception {
+ 	@Test
+ 	void testGetUsersEndPoint() throws Exception {
 		
-// 		addUser(testUser);
+ 		addUser(testUser);
 		
 
-// 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/user/")
-// 				.contentType(MediaType.APPLICATION_JSON))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andReturn();
-// 		String responseContent = result.getResponse().getContentAsString();
-// 		List<User> responseUsers = objectMapper.readValue(responseContent, new TypeReference<List<User>>() {});
+ 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/user/")
+ 				.contentType(MediaType.APPLICATION_JSON))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andReturn();
+ 		String responseContent = result.getResponse().getContentAsString();
+ 		List<User> responseUsers = objectMapper.readValue(responseContent, new TypeReference<List<User>>() {});
 		
-// 		assertEquals(responseUsers.size(), getUsers().size(), "Users should be returned correctly From Endpoint");
-// 	}
+ 		assertEquals(responseUsers.size(), getUsers().size(), "Users should be returned correctly From Endpoint");
+ 	}
 
 	
 
-// 	@Test
-// 	void testGetUserByIdEndPoint() throws Exception {
-// 		User testUser8=new User();
-// 		testUser8.setId(UUID.randomUUID());
-// 		testUser8.setName("Test User8");
-// 		addUser(testUser8);
+ 	@Test
+ 	void testGetUserByIdEndPoint() throws Exception {
+ 		User testUser8=new User();
+ 		testUser8.setId(UUID.randomUUID());
+ 		testUser8.setName("Test User8");
+ 		addUser(testUser8);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}", testUser8.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(testUser8)));
-// 	}
+ 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}", testUser8.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(testUser8)));
+ 	}
 
 	
 
-// 	@Test
-// 	void testGetOrdersByUserIdEndPoint() throws Exception {
-// 		User testUser10=new User();
-// 		testUser10.setId(UUID.randomUUID());
-// 		testUser10.setName("Test User10");
-// 		List<Order> orders = List.of(new Order(UUID.randomUUID(), testUser10.getId(), 10.0, List.of(new Product(UUID.randomUUID(), "Test Product", 10.0))));
-// 		testUser10.setOrders(orders);
-// 		addUser(testUser10);		
-// 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}/orders", testUser10.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(orders)));
-// 	}
+ 	@Test
+ 	void testGetOrdersByUserIdEndPoint() throws Exception {
+ 		User testUser10=new User();
+ 		testUser10.setId(UUID.randomUUID());
+ 		testUser10.setName("Test User10");
+ 		List<Order> orders = List.of(new Order(UUID.randomUUID(), testUser10.getId(), 10.0, List.of(new Product(UUID.randomUUID(), "Test Product", 10.0))));
+ 		testUser10.setOrders(orders);
+ 		addUser(testUser10);
+ 		mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}/orders", testUser10.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(orders)));
+ 	}
 
 	
 
-// 	@Test
-// 	void testAddOrderToUserEndPoint() throws Exception {
-// 		User testUser11=new User();
-// 		testUser11.setId(UUID.randomUUID());
-// 		testUser11.setName("Test User11");
-// 		Cart cart=new Cart();
-// 		cart.setId(UUID.randomUUID());
-// 		cart.setUserId(testUser11.getId());
-// 		Product tesProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		cart.setProducts(List.of(tesProduct));
-// 		addCart(cart);
-// 		addUser(testUser11);
+ 	@Test
+ 	void testAddOrderToUserEndPoint() throws Exception {
+ 		User testUser11=new User();
+ 		testUser11.setId(UUID.randomUUID());
+ 		testUser11.setName("Test User11");
+ 		Cart cart=new Cart();
+ 		cart.setId(UUID.randomUUID());
+ 		cart.setUserId(testUser11.getId());
+ 		Product tesProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
+ 		cart.setProducts(List.of(tesProduct));
+ 		addCart(cart);
+ 		addUser(testUser11);
 		
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/user/{userId}/checkout", testUser11.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Order added successfully"));
-// 	}
+ 		mockMvc.perform(MockMvcRequestBuilders.post("/user/{userId}/checkout", testUser11.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Order added successfully"));
+ 	}
 
 	
-// 	@Test
-// 	void testRemoveOrderOfUserEndPoint() throws Exception{
-// 		User testUser12=new User();
-// 		testUser12.setId(UUID.randomUUID());
-// 		testUser12.setName("Test User12");
-// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
-// 		Order order = new Order(UUID.randomUUID(), testUser12.getId(), 100.0, List.of(product));
-// 		testUser12.getOrders().add(order);
-// 		addUser(testUser12);
-// 		addOrder(order);
+ 	@Test
+ 	void testRemoveOrderOfUserEndPoint() throws Exception{
+ 		User testUser12=new User();
+ 		testUser12.setId(UUID.randomUUID());
+ 		testUser12.setName("Test User12");
+ 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
+ 		Order order = new Order(UUID.randomUUID(), testUser12.getId(), 100.0, List.of(product));
+ 		testUser12.getOrders().add(order);
+ 		addUser(testUser12);
+ 		addOrder(order);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/user/{userId}/removeOrder", testUser12.getId()).param("orderId", order.getId().toString()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Order removed successfully"));
-// 	}
+ 		mockMvc.perform(MockMvcRequestBuilders.post("/user/{userId}/removeOrder", testUser12.getId()).param("orderId", order.getId().toString()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Order removed successfully"));
+ 	}
 	
 
-// 	@Test
-// 	void testEmptyCartEndpoint() throws Exception{
-// 		User testUser13=new User();
-// 		testUser13.setId(UUID.randomUUID());
-// 		testUser13.setName("Test User13");
-// 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser13.getId(), new ArrayList<>(List.of(product)));
-// 		addUser(testUser13);
-// 		addCart(cart);
+ 	@Test
+ 	void testEmptyCartEndpoint() throws Exception{
+ 		User testUser13=new User();
+ 		testUser13.setId(UUID.randomUUID());
+ 		testUser13.setName("Test User13");
+ 		Product product = new Product(UUID.randomUUID(), "Test Product", 100.0);
+ 		Cart cart = new Cart(UUID.randomUUID(), testUser13.getId(), new ArrayList<>(List.of(product)));
+ 		addUser(testUser13);
+ 		addCart(cart);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/{userId}/emptyCart", testUser13.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Cart emptied successfully"));
-// 	}
+ 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/{userId}/emptyCart", testUser13.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Cart emptied successfully"));
+ 	}
 	
 
-// 	@Test
-// 	void testAddProductToCartEndPoint() throws Exception {
-// 		User testUser14=new User();
-// 		testUser14.setId(UUID.randomUUID());
-// 		testUser14.setName("Test User14");
+ 	@Test
+ 	void testAddProductToCartEndPoint() throws Exception {
+ 		User testUser14=new User();
+ 		testUser14.setId(UUID.randomUUID());
+ 		testUser14.setName("Test User14");
 		
-// 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		addUser(testUser14);
-// 		addProduct(testProduct);
+ 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
+ 		addUser(testUser14);
+ 		addProduct(testProduct);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.put("/user/addProductToCart")
-// 				.param("userId", testUser14.getId().toString())
-// 				.param("productId", testProduct.getId().toString()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Product added to cart"));
-// 		assertTrue(getCarts().getLast().getUserId().equals(testUser14.getId()),"New Cart Should be created for user");
-// 		assertEquals(testProduct.getId(), getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
-// 	}
+ 		mockMvc.perform(MockMvcRequestBuilders.put("/user/addProductToCart")
+ 				.param("userId", testUser14.getId().toString())
+ 				.param("productId", testProduct.getId().toString()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Product added to cart"));
+ 		assertTrue(getCarts().getLast().getUserId().equals(testUser14.getId()),"New Cart Should be created for user");
+ 		assertEquals(testProduct.getId(), getCarts().getLast().getProducts().get(0).getId(),"Product should be added correctly");
+ 	}
 
 	
 
-// 	@Test
-// 	void testDeleteProductFromCartEndPoint1() throws Exception {
-// 		User testUser15=new User();
-// 		testUser15.setId(UUID.randomUUID());
-// 		testUser15.setName("Test User15");
+ 	@Test
+ 	void testDeleteProductFromCartEndPoint1() throws Exception {
+ 		User testUser15=new User();
+ 		testUser15.setId(UUID.randomUUID());
+ 		testUser15.setName("Test User15");
 		
-// 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		addUser(testUser15);
-// 		addProduct(testProduct);
-// 		Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
-// 		addCart(cart);
+ 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
+ 		addUser(testUser15);
+ 		addProduct(testProduct);
+ 		Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
+ 		addCart(cart);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.put("/user/deleteProductFromCart")
-// 				.param("userId", cart.getUserId().toString())
-// 				.param("productId", testProduct.getId().toString()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Product deleted from cart"));
-// 	}
-// 	@Test
-// 	void testDeleteProductFromCartEndPoint2() throws Exception {
-// 		User testUser15=new User();
-// 		testUser15.setId(UUID.randomUUID());
-// 		testUser15.setName("Test User15");
+ 		mockMvc.perform(MockMvcRequestBuilders.put("/user/deleteProductFromCart")
+ 				.param("userId", cart.getUserId().toString())
+ 				.param("productId", testProduct.getId().toString()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Product deleted from cart"));
+ 	}
+ 	@Test
+ 	void testDeleteProductFromCartEndPoint2() throws Exception {
+ 		User testUser15=new User();
+ 		testUser15.setId(UUID.randomUUID());
+ 		testUser15.setName("Test User15");
 		
-// 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
-// 		addUser(testUser15);
-// 		addProduct(testProduct);
-// 		// Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
-// 		// addCart(cart);
+ 		Product testProduct=new Product(UUID.randomUUID(), "Test Product", 10.0);
+ 		addUser(testUser15);
+ 		addProduct(testProduct);
+ 		// Cart cart = new Cart(UUID.randomUUID(), testUser15.getId(), new ArrayList<>(List.of(testProduct)));
+ 		// addCart(cart);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.put("/user/deleteProductFromCart")
-// 				.param("userId", testUser15.getId().toString())
-// 				.param("productId", testProduct.getId().toString()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Cart is empty"));
-// 	}
+ 		mockMvc.perform(MockMvcRequestBuilders.put("/user/deleteProductFromCart")
+ 				.param("userId", testUser15.getId().toString())
+ 				.param("productId", testProduct.getId().toString()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Cart is empty"));
+ 	}
 
 
 	
-// 	@Test
-// 	void testDeleteUserByIdEndPoint1() throws Exception {
-// 		User testUser18=new User();
-// 		testUser18.setId(UUID.randomUUID());
-// 		testUser18.setName("Test User18");
-// 		addUser(testUser18);
+ 	@Test
+ 	void testDeleteUserByIdEndPoint1() throws Exception {
+ 		User testUser18=new User();
+ 		testUser18.setId(UUID.randomUUID());
+ 		testUser18.setName("Test User18");
+ 		addUser(testUser18);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{userId}", testUser18.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("User deleted successfully"));
-// 	}
-// 	@Test
-// 	void testDeleteUserByIdEndPoint2() throws Exception {
-// 		User testUser18=new User();
-// 		testUser18.setId(UUID.randomUUID());
-// 		testUser18.setName("Test User18");
-// 		addUser(testUser18);
+ 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{userId}", testUser18.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("User deleted successfully"));
+ 	}
+ 	@Test
+ 	void testDeleteUserByIdEndPoint2() throws Exception {
+ 		User testUser18=new User();
+ 		testUser18.setId(UUID.randomUUID());
+ 		testUser18.setName("Test User18");
+ 		addUser(testUser18);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{userId}", UUID.randomUUID()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("User not found"));
-// 	}
+ 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{userId}", UUID.randomUUID()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("User not found"));
+ 	}
 
 
-// 	// ------------------------ Product Tests -------------------------
+ 	// ------------------------ Product Tests -------------------------
 
 	
  	@Test
@@ -595,79 +709,79 @@
  				.andExpect(MockMvcResultMatchers.content().string("Product deleted successfully"));
  	}
 
-// 	// --------------------------------- Cart Tests -------------------------
+ 	// --------------------------------- Cart Tests -------------------------
 
 
 	
 
 	
 
-// 	@Test
-// 	void testAddCartEndPoint() throws Exception{
-// 		User testUser21=new User();
-// 		testUser21.setId(UUID.randomUUID());
-// 		testUser21.setName("Test User21");
-// 		addUser(testUser21);
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/cart/")
-// 				.contentType(MediaType.APPLICATION_JSON)
-// 				.content(objectMapper.writeValueAsString(new Cart(UUID.randomUUID(), testUser21.getId(), new ArrayList<>())))
-// 				)
-// 				.andExpect(MockMvcResultMatchers.status().isOk());
-// 		boolean found=false;
-// 		for(Cart cart: getCarts()){
-// 			if(cart.getUserId().equals(testUser21.getId())){
-// 				found=true;
-// 				break;
-// 			}
-// 		}
-// 		assertTrue(found,"Cart should be added correctly");
-// 	}
+ 	@Test
+ 	void testAddCartEndPoint() throws Exception{
+ 		User testUser21=new User();
+ 		testUser21.setId(UUID.randomUUID());
+ 		testUser21.setName("Test User21");
+ 		addUser(testUser21);
+ 		mockMvc.perform(MockMvcRequestBuilders.post("/cart/")
+ 				.contentType(MediaType.APPLICATION_JSON)
+ 				.content(objectMapper.writeValueAsString(new Cart(UUID.randomUUID(), testUser21.getId(), new ArrayList<>())))
+ 				)
+ 				.andExpect(MockMvcResultMatchers.status().isOk());
+ 		boolean found=false;
+ 		for(Cart cart: getCarts()){
+ 			if(cart.getUserId().equals(testUser21.getId())){
+ 				found=true;
+ 				break;
+ 			}
+ 		}
+ 		assertTrue(found,"Cart should be added correctly");
+ 	}
 
 	
 
 	
 
-// 	@Test
-// 	void testGetCartsEndPoint() throws Exception{
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/cart/")
-// 				.contentType(MediaType.APPLICATION_JSON))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andReturn();
-// 		String responseContent = result.getResponse().getContentAsString();
-// 		List<Cart> responseCarts = objectMapper.readValue(responseContent, new TypeReference<List<Cart>>() {});
-// 		assertEquals(getCarts().size(), responseCarts.size(), "Carts should be returned correctly From Endpoint");
-// 	}
+ 	@Test
+ 	void testGetCartsEndPoint() throws Exception{
+ 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
+ 		addCart(cart);
+ 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/cart/")
+ 				.contentType(MediaType.APPLICATION_JSON))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andReturn();
+ 		String responseContent = result.getResponse().getContentAsString();
+ 		List<Cart> responseCarts = objectMapper.readValue(responseContent, new TypeReference<List<Cart>>() {});
+ 		assertEquals(getCarts().size(), responseCarts.size(), "Carts should be returned correctly From Endpoint");
+ 	}
 
 
 	
 
-// 	@Test
-// 	void testGetCartByIdEndPoint() throws Exception{
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		mockMvc.perform(MockMvcRequestBuilders.get("/cart/{id}", cart.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(cart)));
-// 	}
+ 	@Test
+ 	void testGetCartByIdEndPoint() throws Exception{
+ 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
+ 		addCart(cart);
+ 		mockMvc.perform(MockMvcRequestBuilders.get("/cart/{id}", cart.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(cart)));
+ 	}
 
 	
 	
 
 	
 
-// 	@Test
-// 	void testDeleteCartByIdEndPoint() throws Exception{
-// 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
-// 		addCart(cart);
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/cart/delete/{id}", cart.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Cart deleted successfully"));
-// 	}
+ 	@Test
+ 	void testDeleteCartByIdEndPoint() throws Exception{
+ 		Cart cart = new Cart(UUID.randomUUID(), UUID.randomUUID(), new ArrayList<>());
+ 		addCart(cart);
+ 		mockMvc.perform(MockMvcRequestBuilders.delete("/cart/delete/{id}", cart.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Cart deleted successfully"));
+ 	}
 
 
-// 	// --------------------------------- Order Tests -------------------------
+ 	// --------------------------------- Order Tests -------------------------
 
 	
 	
@@ -688,6 +802,68 @@
  		}
  		assertTrue(found,"Order should be added correctly from Endpoint");
  	}
+<<<<<<< HEAD
+=======
+
+	
+
+	
+
+ 	@Test
+ 	void testGetOrdersEndPoint() throws Exception{
+
+ 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
+ 		addOrder(order);
+ 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/order/")
+ 				.contentType(MediaType.APPLICATION_JSON))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andReturn();
+ 		String responseContent = result.getResponse().getContentAsString();
+ 		List<Order> responseOrders = objectMapper.readValue(responseContent, new TypeReference<List<Order>>() {});
+ 		assertEquals(getOrders().size(), responseOrders.size(), "Orders should be returned correctly From Endpoint");
+ 	}
+
+	
+
+	
+
+ 	@Test
+ 	void testGetOrderByIdEndPoint() throws Exception{
+ 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
+ 		addOrder(order);
+ 		mockMvc.perform(MockMvcRequestBuilders.get("/order/{id}", order.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(order)))
+ 				.andReturn();
+ 		// String responseContent = result.getResponse().getContentAsString();
+ 		// Order responseOrder = objectMapper.readValue(responseContent, Order.class);
+ 		// assertEquals(order.getId(), responseOrder.getId(), "Order should be returned correctly From Endpoint");
+ 	}
+
+	
+	
+
+ 	@Test
+ 	void testDeleteOrderByIdEndPoint() throws Exception{
+ 		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
+ 		addOrder(order);
+ 		mockMvc.perform(MockMvcRequestBuilders.delete("/order/delete/{id}", order.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Order deleted successfully"));
+ 	}
+
+ 	@Test
+ 	void testDeleteOrderByIdEndPoint2() throws Exception{
+		
+ 		mockMvc.perform(MockMvcRequestBuilders.delete("/order/delete/{id}", UUID.randomUUID()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Order not found"));
+ 	}
+
+	
+
+	
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
 
 
 
@@ -696,6 +872,7 @@
  	@Test
  	void testGetOrdersEndPoint() throws Exception{
 
+<<<<<<< HEAD
  		Order order = new Order(UUID.randomUUID(), UUID.randomUUID(), 10.0, new ArrayList<>());
  		addOrder(order);
  		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/order/")
@@ -755,4 +932,6 @@
 
 
 
+=======
+>>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
  }
