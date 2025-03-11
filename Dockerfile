@@ -5,7 +5,7 @@ FROM openjdk:25-ea-4-jdk-oraclelinux9
 WORKDIR /app
 
 # Copy the built JAR file from the target directory
-COPY ./target/mini1.jar ./target/mini1.jar
+COPY ./ /app
 
 # Copy the data JSON files to a specific directory in the container
 COPY src/main/java/com/example/data /app/data
