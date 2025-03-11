@@ -2,10 +2,7 @@ package com.example.controller;
 
 import com.example.model.Product;
 import com.example.service.ProductService;
-<<<<<<< HEAD
-=======
 import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,58 +15,11 @@ public class ProductController {
 
     private final ProductService productService;
 
-<<<<<<< HEAD
-=======
     @Autowired
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-<<<<<<< HEAD
-    @PostMapping("/")
-    public Product addProduct(@RequestBody Product product) {
-        return this.productService.addProduct(product);
-    }
-
-    @GetMapping("/")
-    public ArrayList<Product> getProducts() {
-        return this.productService.getProducts();
-    }
-
-    @GetMapping("/{productId}")
-    public Product getProductById(@PathVariable UUID productId) {
-        return this.productService.getProductById(productId);
-    }
-
-    @PutMapping("/update/{productId}")
-    public Product updateProduct(@PathVariable UUID productId, @RequestBody Map<String, Object>
-            body) {
-        return this.productService.updateProduct(productId, body.get("newName").toString(), (double)body.get("newPrice"));
-    }
-
-    @PutMapping("/applyDiscount")
-    public String applyDiscount(@RequestParam double discount, @RequestBody ArrayList<UUID>
-            productIds) {
-        try{
-            this.productService.applyDiscount(discount,productIds);
-            return "Discount applied successfully";
-        }
-        catch(Exception e){
-            return "fail to apply discount";
-        }
-    }
-
-    @DeleteMapping("/delete/{productId}")
-    public String deleteProductById(@PathVariable UUID productId) {
-         this.productService.deleteProductById(productId);
-         return "Product deleted successfully";
-    }
-
-
-}
-
-=======
     // Add a new product
     @PostMapping("/")
     public Product addProduct(@RequestBody Product product) {
@@ -124,4 +74,3 @@ public class ProductController {
         return "Product deleted successfully";
     }
 }
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d

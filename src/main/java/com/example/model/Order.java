@@ -1,9 +1,5 @@
 package com.example.model;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,20 +8,6 @@ import java.util.UUID;
 
 @Component
 public class Order {
-<<<<<<< HEAD
-
-    private UUID id;
-    private UUID userId;
-    private double totalPrice;
-    private List<Product> products=new ArrayList<>();
-
-    public Order() {
-        this.id = UUID.randomUUID();
-
-    }
-
-
-=======
     private UUID id;
     private UUID userId;
     private double totalPrice;
@@ -46,29 +28,14 @@ public class Order {
     }
 
     // Constructor with all fields
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
     public Order(UUID id, UUID userId, double totalPrice, List<Product> products) {
         this.id = id;
         this.userId = userId;
         this.totalPrice = totalPrice;
-<<<<<<< HEAD
-        this.products = products;
-    }
-
-    public Order(UUID userId, double totalPrice, List<Product> products) {
-        this.userId = userId;
-        this.totalPrice = totalPrice;
-        this.products = products;
-    }
-
-
-
-=======
         this.products = products != null ? products : new ArrayList<>();
     }
 
     // Getters and Setters
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
     public UUID getId() {
         return id;
     }
@@ -100,9 +67,6 @@ public class Order {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
-<<<<<<< HEAD
-}
-=======
 
     // Helper method to calculate the total price of the order
     public double calculateTotalPrice() {
@@ -135,4 +99,3 @@ public class Order {
                 '}';
     }
 }
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d

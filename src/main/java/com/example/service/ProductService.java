@@ -2,64 +2,27 @@ package com.example.service;
 
 import com.example.model.Product;
 import com.example.repository.ProductRepository;
-<<<<<<< HEAD
-=======
 import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-<<<<<<< HEAD
-@SuppressWarnings("rawtypes")
-=======
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
 public class ProductService extends MainService<Product> {
 
     private final ProductRepository productRepository;
 
-<<<<<<< HEAD
-=======
     @Autowired
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-<<<<<<< HEAD
-    public Product addProduct(Product product) {
-        return this.productRepository.addProduct(product);
-    }
-
-    public ArrayList<Product> getProducts() {
-        return this.productRepository.getProducts();
-    }
-
-    public Product getProductById(UUID productId) {
-        return this.productRepository.getProductById(productId);
-    }
-
-    public Product updateProduct(UUID productId, String newName, double newPrice) {
-        return this.productRepository.updateProduct(productId, newName, newPrice);
-    }
-
-    public void applyDiscount(double discount, ArrayList<UUID> productIds) {
-        this.productRepository.applyDiscount(discount, productIds);
-    }
-
-    public void deleteProductById(UUID productId) {
-         this.productRepository.deleteProductById(productId);
-    }
-
-
-
-
-}
-=======
     // Add a new product to the system
     public Product addProduct(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException();
+        }
         return productRepository.addProduct(product);
     }
 
@@ -98,6 +61,9 @@ public class ProductService extends MainService<Product> {
 
     // Apply a discount to a list of products
     public void applyDiscount(double discount, ArrayList<UUID> productIds) {
+        if (discount <= 0) {
+            throw new IllegalArgumentException("discount must be a positive value");
+        }
         productRepository.applyDiscount(discount, productIds);
     }
 
@@ -106,4 +72,3 @@ public class ProductService extends MainService<Product> {
         productRepository.deleteProductById(productId);
     }
 }
->>>>>>> 8e02dc5846d96165253fe0a1cdbd0768f6a37f0d
